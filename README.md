@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.svg" alt="Description" width="40%" />
+  <img src="Resources/logo.svg" alt="Description" width="40%" />
 </p>
 <!-- # NumXX -->
 

@@ -19,3 +19,4 @@ matrix = vec1 * vec2  # Broadcasting
 print(matrix.shape)  # (10, 12)
 
 ```
+- Add the `nx::where()` function.
