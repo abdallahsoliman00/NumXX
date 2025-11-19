@@ -48,7 +48,7 @@ function addCopyButtons() {
 
         // Create image element for copy icon
         const copyIcon = document.createElement('img');
-        copyIcon.src = '/media/copy_icon.png';
+        copyIcon.src = '/Website/media/copy_icon.png';
         copyIcon.alt = 'Copy';
         button.appendChild(copyIcon);
 
@@ -58,7 +58,7 @@ function addCopyButtons() {
 
             navigator.clipboard.writeText(text).then(() => {
                 // Replace with tick icon
-                copyIcon.src = '/media/tick.png';
+                copyIcon.src = '/Website/media/tick.png';
                 copyIcon.alt = 'Copied';
                 button.classList.add('copied');
 
@@ -67,7 +67,7 @@ function addCopyButtons() {
 
                 setTimeout(() => {
                     // Restore copy icon
-                    copyIcon.src = '/media/copy_icon.png';
+                    copyIcon.src = '/Website/media/copy_icon.png';
                     copyIcon.alt = 'Copy';
                     button.classList.remove('copied');
                 }, 2000);
