@@ -18,9 +18,6 @@
         <span></span>
     </button>
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
-
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -112,17 +109,14 @@
             <p>An Array object filled with zeros of the specified shape and data type.</p>
 
             <h3>Example</h3>
-            <pre><code class="language-cpp">
+            <pre><code class="language-cpp">#include &lt;numxx/numxx.hpp&gt;
 
-            #include &lt;numxx/numxx.hpp&gt;
-
-            int main() {
-                auto arr = numxx::zeros({3, 4});
-                arr.print();
-                return 0;
-            }
-
-            </code></pre>
+int main() {
+    auto arr = numxx::zeros({3, 4});
+    arr.print();
+    return 0;
+}</code>
+            </pre>
         </section>
 
         <!-- ones() Section -->
@@ -305,16 +299,18 @@ int main() {
 
     </main>
 
-    </div>
-
     <footer>
         <div class="container">
-            <p>&copy; 2025 NumXX.</p>
+            <p>&copy; 2025 abdallahsoliman00.</p>
         </div>
     </footer>
+
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
     <script src="../scripts/hamburger_menu_script.js"></script>
+    <script src="../scripts/code_blocks_script.js"></script>
+    <script src="../scripts/rotate_header_script.js"></script>
 </body>
 </html>

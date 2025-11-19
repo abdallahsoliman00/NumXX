@@ -27,7 +27,7 @@ body {
     background: #1e2125; /* Dark background */
     padding: 3rem 0;
     margin: 2rem 0;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     position: relative;
     border: 2px solid transparent;
@@ -90,7 +90,7 @@ body {
 
 .doc-card {
     background: none;
-    border-radius: 12px;
+    border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -151,7 +151,6 @@ body {
 }
 
 header {
-    /*background: linear-gradient(135deg, rgba(0, 68, 128, 0.6) 0%, rgba(122, 45, 147, 0.6) 100%);*/
     background: linear-gradient(135deg, rgba(122, 45, 147, 0.6) 0%, rgba(0, 68, 128, 0.6) 100%);
     color: white;
     padding: 1.1rem 0;
@@ -226,13 +225,13 @@ nav a:hover {
     box-shadow: 0 4px 12px rgba(59, 248, 251, 0.4);
 }
 
-/* Update footer for dark theme */
 footer {
     background: #1e2125;
     color: white;
     text-align: left;
     padding: 0.5rem 0;
     margin-top: 3rem;
+    font-size: 0.75rem;
 }
 
 @media (max-width: 768px) {
@@ -250,7 +249,7 @@ footer {
 .section-title {
     text-align: center;
     font-size: 2.5rem;
-    color: #63b4f4;
+    color: #64b5f6;
     margin-bottom: 1.5rem;
     padding-top: 1.5rem;
 }
