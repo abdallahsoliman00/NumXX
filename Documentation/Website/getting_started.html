@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>NumXX - Getting Started</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/hamburger_menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 
 </head>
 <body>
@@ -28,7 +30,80 @@
         </div>
     </header>
 
+    <nav>
+        <div class="container">
+            <ul>
+                <li>
+                    <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;">
+                    Home
+                    </a>
+                </li>
+                <li><a href="getting_started.html">Getting Started</a></li>
+                <li><a href="documentation.html">Documentation</a></li>
+                <li><a href="examples.html">Examples</a></li>
+            </ul>
+        </div>
+    </nav>
+
+<!--Page begins here-->
+
+    <main class="container">
+        <h1 class="section-title">Getting Started</h1>
+        <p>To get started using the library, it should be pretty easy since it was made completely in vanilla C++ and has no dependencies.</p>
+        <section class="content-section active">
+            <h3>Method 1:</h3>
+
+            <p>Clone the repository: </p>
+
+            <pre><code>git clone https://github.com/abdallahsoliman00/NumXX.git</code></pre>
+
+            <p>Add the folder <a href="https://github.com/abdallahsoliman00/NumXX/tree/main/NumXX">NumXX</a> to your include path.</p>
+            <p>To use now, add the following line to the top of your C++ file:</p>
+
+            <pre><code class="language-cpp">#include "Numxx.hpp"</code></pre>
+
+            <h3>Method 2:</h3>
+
+            <p>Add the following to your CMakeLists.txt project file:</p>
+
+            <pre><code class="language-cmake"># Fetch NumXX from GitHub
+include(FetchContent)
+
+FetchContent_Declare(
+    NumXX
+    GIT_REPOSITORY https://github.com/abdallahsoliman00/NumXX.git
+    GIT_TAG main
+)
+
+FetchContent_MakeAvailable(NumXX)
+
+# Link library
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+    NumXX
+)
+</code></pre>
+
+            <p>You can now use the library by adding the following:</p>
+
+            <pre><code class="language-cpp">#include &lt;Numxx.hpp&gt;</code></pre>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 abdallahsoliman00.</p>
+        </div>
+    </footer>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cmake.min.js"></script>
+    <script src="scripts/rotate_header_script.js"></script>
+    <script src="scripts/code_blocks_script.js"></script>
+    <script src="scripts/glow_script.js"></script>
 </body>
 </html>

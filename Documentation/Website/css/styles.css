@@ -253,3 +253,10 @@ footer {
     margin-bottom: 1.5rem;
     padding-top: 1.5rem;
 }
+
+a {
+    color: #4da6ff;
+}
+a:hover {
+    color: #3677a1;
+}
