@@ -1,6 +1,9 @@
 // Initialize syntax highlighting
 hljs.highlightAll();
 
+const COPY_DIR = MEDIA_PATH + 'media/copy_icon.png';
+const TICK_DIR = MEDIA_PATH + 'media/tick.png';
+
 // Create and show copy notification
 function showCopyNotification() {
     // Check if notification already exists
@@ -48,7 +51,7 @@ function addCopyButtons() {
 
         // Create image element for copy icon
         const copyIcon = document.createElement('img');
-        copyIcon.src = '/media/copy_icon.png';
+        copyIcon.src = COPY_DIR;
         copyIcon.alt = 'Copy';
         button.appendChild(copyIcon);
 
@@ -58,7 +61,7 @@ function addCopyButtons() {
 
             navigator.clipboard.writeText(text).then(() => {
                 // Replace with tick icon
-                copyIcon.src = '/media/tick.png';
+                copyIcon.src = TICK_DIR;
                 copyIcon.alt = 'Copied';
                 button.classList.add('copied');
 
@@ -67,7 +70,7 @@ function addCopyButtons() {
 
                 setTimeout(() => {
                     // Restore copy icon
-                    copyIcon.src = '/media/copy_icon.png';
+                    copyIcon.src = COPY_DIR;
                     copyIcon.alt = 'Copy';
                     button.classList.remove('copied');
                 }, 2000);
@@ -75,7 +78,7 @@ function addCopyButtons() {
                 console.error('Failed to copy:', err);
                 // Optionally show an error icon
                 setTimeout(() => {
-                    copyIcon.src = '/media/copy_icon.png';
+                    copyIcon.src = COPY_DIR;
                     copyIcon.alt = 'Copy';
                 }, 2000);
             });
