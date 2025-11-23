@@ -57,7 +57,7 @@ namespace numxx {
         }
         auto out_shape = shape.dimensions;
         out_shape.erase(out_shape.begin() + axis);
-        return out.reshape(std::move(out_shape));
+        return out.reshape(Shape{std::move(out_shape)});
     }
 
 
@@ -78,6 +78,7 @@ namespace numxx {
     }
 
 
+    // Finds the differences between elements of an array
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     NArray<T> diff(const NArray<T>& arr, const uint16_t n = 1, int axis = -1) {
         if (n == 0) return arr;
@@ -137,4 +138,148 @@ namespace numxx {
         }
         return out;
     }
+
+    // Returns the largest element in the array. For complex numbers, the number with the largest argument is returned
+    // By default, the input is flattened
+    template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
+    T max(const NArray<T>& arr) {
+        T max = arr(0);
+        if constexpr (is_complex_v<T>) {
+            for (int i = 0; i < arr.get_total_size(); ++i) {
+                if (arr(i).arg() > max.arg()) max = arr(i);
+            }
+        } else {
+            for (int i = 0; i < arr.get_total_size(); ++i) {
+                if (arr(i) > max) max = arr(i);
+            }
+        }
+        return max;
+    }
+
+    // Finds the max element along an axis
+    template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
+    NArray<T> max(const NArray<T>& arr, int axis)
+    {
+        const Shape& shape = arr.get_shape();
+        const size_t ndim = shape.get_Ndim();
+
+        if (axis < 0) axis += ndim;
+
+        size_t strides[ndim];
+        Shape::compute_strides(shape, strides, ndim);
+
+        const size_t axis_size = shape[axis];
+        int outer = 1;
+        for (int i = 0; i < axis; ++i)
+            outer *= shape[i];
+
+        const int inner = strides[axis];
+
+        const size_t out_size = outer * inner;
+        NArray<T> out(Shape{out_size});
+
+        // Initialise with first elements along axis
+        for (int m = 0; m < outer; ++m) {
+            for (int k = 0; k < inner; ++k) {
+                out(m * inner + k) = arr(m * axis_size * inner + k);
+            }
+        }
+
+        // Find max along axis
+        for (int m = 0; m < outer; ++m) {
+            for (int n = 1; n < axis_size; ++n) {
+                for (int k = 0; k < inner; ++k) {
+                    size_t out_idx = m * inner + k;
+                    T current = arr(m * axis_size * inner + n * inner + k);
+
+                    if constexpr (is_complex_v<T>) {
+                        if (current.arg() > out(out_idx).arg()) {
+                            out(out_idx) = current;
+                        }
+                    } else {
+                        if (current > out(out_idx)) {
+                            out(out_idx) = current;
+                        }
+                    }
+                }
+            }
+        }
+
+        auto out_shape = shape.dimensions;
+        out_shape.erase(out_shape.begin() + axis);
+        return out.reshape(Shape{std::move(out_shape)});
+    }
+
+    // Returns the smallest element in the array. For complex numbers, the number with the smallest argument is returned
+    // By default, the input is flattened
+    template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
+    T min(const NArray<T>& arr) {
+        T min = arr(0);
+        if constexpr (is_complex_v<T>) {
+            for (int i = 0; i < arr.get_total_size(); ++i) {
+                if (arr(i).arg() < min.arg()) min = arr(i);
+            }
+        } else {
+            for (int i = 0; i < arr.get_total_size(); ++i) {
+                if (arr(i) < min) min = arr(i);
+            }
+        }
+        return min;
+    }
+
+
+    template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
+    NArray<T> min(const NArray<T>& arr, int axis)
+    {
+        const Shape& shape = arr.get_shape();
+        const size_t ndim = shape.get_Ndim();
+
+        if (axis < 0) axis += ndim;
+
+        size_t strides[ndim];
+        Shape::compute_strides(shape, strides, ndim);
+
+        const size_t axis_size = shape[axis];
+        int outer = 1;
+        for (int i = 0; i < axis; ++i)
+            outer *= shape[i];
+
+        const int inner = strides[axis];
+
+        const size_t out_size = outer * inner;
+        NArray<T> out(Shape{out_size});
+
+        // Initialize with first elements along axis
+        for (int m = 0; m < outer; ++m) {
+            for (int k = 0; k < inner; ++k) {
+                out(m * inner + k) = arr(m * axis_size * inner + k);
+            }
+        }
+
+        // Find max along axis
+        for (int m = 0; m < outer; ++m) {
+            for (int n = 1; n < axis_size; ++n) {
+                for (int k = 0; k < inner; ++k) {
+                    size_t out_idx = m * inner + k;
+                    T current = arr(m * axis_size * inner + n * inner + k);
+
+                    if constexpr (is_complex_v<T>) {
+                        if (current.arg() < out(out_idx).arg()) {
+                            out(out_idx) = current;
+                        }
+                    } else {
+                        if (current < out(out_idx)) {
+                            out(out_idx) = current;
+                        }
+                    }
+                }
+            }
+        }
+
+        auto out_shape = shape.dimensions;
+        out_shape.erase(out_shape.begin() + axis);
+        return out.reshape(Shape{std::move(out_shape)});
+    }
+
+
 } // namespace numxx
