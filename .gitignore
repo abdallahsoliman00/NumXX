@@ -1,6 +1,8 @@
-test.*
-.vscode/
-*.exe
 .idea/
+.vscode/
 cmake-build-debug/
+cmake-build-release/
+
 testfile.txt
+test.*
+*.exe
