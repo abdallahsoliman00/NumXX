@@ -29,6 +29,7 @@ public:
 
     // Fetches the NArray shape
     [[nodiscard]] const Shape& get_shape() const { return this->_shape; }
+    [[nodiscard]] const Shape& shape() const { return this->_shape; }
 
 
     // Returns a pointer `dtype*` to the data
@@ -191,17 +192,15 @@ protected:
 
     // Returns a mask of which NArray elements are the same
     template <typename T, typename Func>
-    NArray<bool> elementwiseCompare(const NArray& other, Func comparison_func) const {
+    NArray<bool> elementwiseCompare(const NArray<T>& other, Func comparison_func) const {
         if(!same_shape(*this, other)) {
-            throw error::ShapeError(this->_shape, other._shape, "compare");
+            throw error::ShapeError(this->_shape, other.get_shape(), "compare");
         }
-        else {
-            std::vector<bool> newVec(_shape.get_total_size());
-            for(size_t i = 0; i < _shape.get_total_size(); i++) {
-                newVec[i] = comparison_func(get_data()[i], other.get_data()[i]);
-            }
-            return NArray(std::move(newVec), _shape);
+        NArray<bool> out(this->_shape);
+        for(size_t i = 0; i < _shape.get_total_size(); i++) {
+            out.get_data()[i] = comparison_func(get_data()[i], other.get_data()[i]);
         }
+        return out;
     }
 
 
@@ -735,7 +734,7 @@ public:
                 this->get_data()
             );
         } else {
-            throw error::ValueError("Could not overwrite data because LHS and RHS of the assignment are not equal.");
+            throw error::ValueError("Could not overwrite data because LHS and RHS of the assignment are not equal in size.");
         }
         return *this;
     }
@@ -748,7 +747,7 @@ public:
                 this->get_data()
             );
         } else {
-            throw error::ValueError("Could not overwrite data because LHS and RHS of the assignment are not equal.");
+            throw error::ValueError("Could not overwrite data because LHS and RHS of the assignment are not equal in size.");
         }
         return *this;
     }
@@ -759,7 +758,7 @@ public:
             for(dtype val : list)
                 this->get_data()[i++] = val;
         } else {
-            throw error::ValueError("Could not overwrite data because LHS and RHS of the assignment are not equal.");
+            throw error::ValueError("Could not overwrite data because LHS and RHS of the assignment are not equal in size.");
         }
         return *this;
     }
@@ -890,7 +889,7 @@ public:
     }
 
 
-    // Returns a NEW transposed matrix (wrapper for NArray::transpose())
+    // Returns a NEW transposed matrix (alias for NArray::transpose())
     [[nodiscard]] NArray T() const { return transpose(); }
 
 
