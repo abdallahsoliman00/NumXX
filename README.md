@@ -57,7 +57,8 @@ This project is complete with *mostly all the core features. <br>These include:
 * Array slicing
 * Basic matrix and vector operations (see [here](NumXX/Core/VecOps.hpp))
 * Functional operations. i.e. trig functions, logarithms and exponentials, etc...
-* 
+* Core NumPy-equivalent functions like `sum()`, `mean()`, `diff()`, `max()`, `min()`
+* File handling operations to read and write to files.
 
 For a fully working implementation, see [NumCpp](https://github.com/dpilger26/NumCpp) or [xtensor](https://xtensor.readthedocs.io/en/latest/).
 
