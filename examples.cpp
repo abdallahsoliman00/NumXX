@@ -6,7 +6,7 @@ using nx::Shape;
 
 
 void initialisation_example() {
-    /* For more, see NumXX/Core/array_creation.hpp */
+    /* For more, see NumXX/Core/ArrayCreation.hpp */
     // Array initialisation
     auto array1 = nx::NArray({1,2,3});
     auto array2 = nx::linspace(0,1,20, false);

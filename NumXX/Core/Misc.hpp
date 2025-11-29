@@ -1,7 +1,7 @@
 /* Misc.hpp */
 #pragma once
 
-#include "Core/NArray.hpp"
+#include "../Containers/NArray.hpp"
 
 namespace numxx {
 

@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "Core/NArray.hpp"
+#include "Containers/NArray.hpp"
 
 #define M_2PI 6.283185307179586
 

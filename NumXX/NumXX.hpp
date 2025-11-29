@@ -1,13 +1,13 @@
 /* NumXX.hpp */
 #pragma once
 
-#include "Core/array_creation.hpp"
-#include "Core/Matrix.hpp"
-#include "VecOps.hpp"
-#include "Constants.hpp"
-#include "Functions.hpp"
+#include "Core/ArrayCreation.hpp"
+#include "Containers/Matrix.hpp"
+#include "Core/VecOps.hpp"
+#include "Core/Constants.hpp"
+#include "Core/Functions.hpp"
 #include "Random.hpp"
 #include "FFT.hpp"
 #include "FileHandling.hpp"
 #include "Linalg.hpp"
-#include "Misc.hpp"
+#include "Core/Misc.hpp"

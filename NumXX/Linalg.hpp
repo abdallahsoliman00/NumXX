@@ -1,7 +1,7 @@
 /* Linalg.hpp */
 #pragma once
 
-#include "Core/NArray.hpp"
+#include "Containers/NArray.hpp"
 #include "Utils/LinalgUtils.hpp"
 
 

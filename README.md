@@ -51,17 +51,17 @@ target_link_libraries(${PROJECT_NAME}
 ```
 
 ## Project Status
-This project is still underway, but current features include:
+This project is complete with *mostly all the core features. <br>These include:
 * Easy array creation for any number of dimensions
 * Element-wise operations
 * Array slicing
-* Basic matrix and vector operations (see [here](NumXX/VecOps.hpp))
-* Reshaping arrays
-* More features coming soon!
+* Basic matrix and vector operations (see [here](NumXX/Core/VecOps.hpp))
+* Functional operations. i.e. trig functions, logarithms and exponentials, etc...
+* 
 
-For a fully working implementation, see [https://github.com/dpilger26/NumCpp](https://github.com/dpilger26/NumCpp).
+For a fully working implementation, see [NumCpp](https://github.com/dpilger26/NumCpp) or [xtensor](https://xtensor.readthedocs.io/en/latest/).
 
-
+*Note: It is _mostly_ complete as not all core features are implemented to their fullest extent.
 ## Examples
 This library aims to mimic NumPy functionality, so for example, if you want to run this in NumPy:
 ```python

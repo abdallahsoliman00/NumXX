@@ -20,3 +20,5 @@ print(matrix.shape)  # (10, 12)
 
 ```
 - Add the `nx::where()` function.
+- Add image reading functionality.
+- Add unit tests (using google test)

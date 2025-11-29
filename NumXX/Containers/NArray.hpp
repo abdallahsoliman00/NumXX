@@ -6,8 +6,8 @@
 #include <string>
 #include <memory>
 
-#include "Shape.hpp"
-#include "../Complex.hpp"
+#include "../Containers/Shape.hpp"
+#include "../Core/Complex.hpp"
 #include "../Utils/VecOps.hpp"
 #include "../Utils/MathFuncUtils.hpp"
 #include "../Utils/Errors.hpp"

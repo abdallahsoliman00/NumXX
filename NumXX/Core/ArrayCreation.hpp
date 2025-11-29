@@ -1,7 +1,7 @@
-/* array_creation.hpp */
+/* ArrayCreation.hpp */
 #pragma once
 
-#include "NArray.hpp"
+#include "../Containers/NArray.hpp"
 
 namespace numxx {
     // TODO: Open https://numpy.org/doc/2.3/reference/routines.array-creation.html and implement functions.

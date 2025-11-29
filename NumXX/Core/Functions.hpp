@@ -3,8 +3,8 @@
 
 #include <cmath>
 
-#include "Utils/FuncUtils.hpp"
-#include "Utils/MathFuncUtils.hpp"
+#include "../Utils/FuncUtils.hpp"
+#include "../Utils/MathFuncUtils.hpp"
 
 
 namespace numxx {

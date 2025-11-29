@@ -2,7 +2,7 @@
 #pragma once
 
 #include <random>
-#include "Core/array_creation.hpp"
+#include "Core/ArrayCreation.hpp"
 
 
 namespace numxx::random {

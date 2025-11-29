@@ -2,7 +2,7 @@
 /* Everything below is mostly copied from STL's <complex> header file */
 #pragma once
 
-#include "../Complex.hpp"
+#include "../Core/Complex.hpp"
 
 
 namespace numxx::util {

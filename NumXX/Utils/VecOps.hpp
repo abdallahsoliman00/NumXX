@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../Core/Shape.hpp"
+#include "../Containers/Shape.hpp"
 
 namespace numxx::util {
 

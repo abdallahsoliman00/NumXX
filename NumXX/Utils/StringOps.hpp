@@ -5,8 +5,8 @@
 #include <cmath>
 #include <iomanip>
 
-#include "../MathOps.hpp"
-#include "../Complex.hpp"
+#include "../Core/MathOps.hpp"
+#include "../Core/Complex.hpp"
 
 namespace numxx::util {
 

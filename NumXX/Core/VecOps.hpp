@@ -1,9 +1,8 @@
 /* VecOps.hpp */
 #pragma once
 
-#include "Core/Shape.hpp"
-#include "Core/NArray.hpp"
-#include "Core/Matrix.hpp"
+#include "../Containers/NArray.hpp"
+#include "../Containers/Matrix.hpp"
 
 namespace numxx {
 

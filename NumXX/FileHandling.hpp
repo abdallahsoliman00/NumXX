@@ -5,14 +5,14 @@
 #include <string>
 #include <map>
 
-#include "Core/NArray.hpp"
+#include "Containers/NArray.hpp"
 
 #define NARRAY_FILE_PREFIX "NumXX::NArray"
 
 
 namespace numxx {
 
-    enum FileType {
+    enum class FileType {
         OTHER,
         TXT,
         CSV,
@@ -20,9 +20,9 @@ namespace numxx {
     };
 
     inline std::map<std::string, FileType> ext_to_type = {
-        {"txt", TXT},
-        {"csv", CSV},
-        {"", TXT}
+        {"txt", FileType::TXT},
+        {"csv", FileType::CSV},
+        {"", FileType::TXT}
     };
 
     // Helper function to get the type of file being opened
@@ -41,7 +41,7 @@ namespace numxx {
         std::string line;
         std::getline(file, line);
         if (line == NARRAY_FILE_PREFIX) {
-            return NARRAY;
+            return FileType::NARRAY;
         }
         file.close();
 
@@ -49,7 +49,7 @@ namespace numxx {
         if (it != ext_to_type.end()) {
             return it->second;
         }
-        return OTHER;
+        return FileType::OTHER;
     }
 
 
@@ -170,11 +170,11 @@ namespace numxx {
     template <typename T>
     NArray<T> load_from_file(const char* filepath, const char delimiter = ' ', const bool skip = false) {
         switch (get_type(filepath)) {
-            case NARRAY:
+            case FileType::NARRAY:
                 return read_NArray<T>(filepath);
-            case TXT:
+            case FileType::TXT:
                 return loadtxt<T>(filepath, delimiter, skip);
-            case CSV:
+            case FileType::CSV:
                 return loadcsv<T>(filepath, ',', skip);
             default:
                 try {
