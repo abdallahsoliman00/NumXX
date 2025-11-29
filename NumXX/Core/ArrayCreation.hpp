@@ -9,23 +9,23 @@ namespace numxx {
     // Creates an array filled with zeros
     template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     NArray<T> zeros(const size_t& size) {
-        return NArray<T>(size, static_cast<T>(0));
+        return NArray<T>(size, T());
     }
 
     template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     NArray<T> zeros(const Shape& shape) {
-        return NArray<T>(shape, static_cast<T>(0));
+        return NArray<T>(shape, T());
     }
 
     // Creates an array of zeros with the same shape as another array
     template <typename T = double, typename U, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     NArray<T> zeros_like(const NArray<U>& other) {
-        return NArray<T>(other.get_shape(), static_cast<T>(0));
+        return NArray<T>(other.get_shape(), T());
     }
 
     template <typename T = double, typename U, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     NArray<T> zeros_like(const std::vector<U>& other) {
-        return NArray<T>(other.size(), static_cast<T>(0));
+        return NArray<T>(other.size(), T());
     }
 
 
