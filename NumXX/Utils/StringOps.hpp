@@ -62,6 +62,11 @@ bool is_scientific(const complex<T>& num) {
     return (is_scientific(num.real()) || is_scientific(num.imag()));
 }
 
+template <typename T>
+bool is_scientific(const std::complex<T>& num) {
+    return (is_scientific(num.real()) || is_scientific(num.imag()));
+}
+
 
 // TODO: cache result for later use?
 // Counts the number of digits to the left of the decimal point
@@ -84,6 +89,10 @@ int get_left_padding(const complex<T>& num) {
     return get_left_padding(std::max(num.real(), num.imag()));
 }
 
+template <typename T>
+int get_left_padding(const std::complex<T>& num) {
+    return get_left_padding(std::max(num.real(), num.imag()));
+}
 
 // TODO: cache result for later use?
 // Counts the number of digits to the right of the decimal point
@@ -111,6 +120,10 @@ int get_right_padding(const complex<T>& num) {
     return std::max(get_right_padding(num.real()), get_right_padding(num.imag()));
 }
 
+template <typename T>
+int get_right_padding(const std::complex<T>& num) {
+    return std::max(get_right_padding(num.real()), get_right_padding(num.imag()));
+}
 
 // TODO: cache result for later use?
 template <typename T>
@@ -126,12 +139,20 @@ int get_exponent(const complex<T>& num) {
     return get_exponent(std::max(num.real(), num.imag()));
 }
 
+template <typename T>
+int get_exponent(const std::complex<T>& num) {
+    return get_exponent(std::max(num.real(), num.imag()));
+}
+
 
 template <typename T>
 bool is_negative(T num) { return num < 0; }
 
 template <typename T>
 bool is_negative(complex<T> num) { return (num.real() < 0) || (num.imag() < 0); }
+
+template <typename T>
+bool is_negative(std::complex<T> num) { return (num.real() < 0) || (num.imag() < 0); }
 
 
 template <typename dtype>
@@ -240,6 +261,16 @@ std::string num_to_str_from_attributes(T num, const PrintAttributes& attributes)
 
 template <typename T>
 std::string num_to_str_from_attributes(const complex<T>& num, const PrintAttributes& attributes) {
+    if (attributes.is_complex) {
+        return "(" + num_to_str_from_attributes(num.real(), attributes) +
+        (num.imag() >= 0 ? " + " : " - ") +
+        num_to_str_from_attributes(std::abs(num.imag()), attributes) + "j)";
+    }
+    return num_to_str_from_attributes(num.real(), attributes);
+}
+
+template <typename T>
+std::string num_to_str_from_attributes(const std::complex<T>& num, const PrintAttributes& attributes) {
     if (attributes.is_complex) {
         return "(" + num_to_str_from_attributes(num.real(), attributes) +
         (num.imag() >= 0 ? " + " : " - ") +

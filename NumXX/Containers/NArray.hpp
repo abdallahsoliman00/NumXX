@@ -527,6 +527,137 @@ public:
 
     /* ====== Operator Overloading ====== */
 
+    /* ELEMENTWISE Assignment and operation overloads */
+
+    // Array addition
+    template <typename T>
+    NArray& operator+=(const T& other) {
+        for (int i = 0; i < get_total_size(); i++) {
+            get_data()[i] += other;
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator-=(const T& other) {
+        for (int i = 0; i < get_total_size(); i++) {
+            get_data()[i] -= other;
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator*=(const T& other) {
+        for (int i = 0; i < get_total_size(); i++) {
+            get_data()[i] *= other;
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator/=(const T& other) {
+        for (int i = 0; i < get_total_size(); i++) {
+            get_data()[i] /= other;
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator +=(const NArray<T>& other) {
+        if (!same_shape(*this, other)) {
+            throw error::ShapeError(
+                "Cannot add together shapes " + util::toString(shape()) + " and " +
+                util::toString(other.shape()) + "elementwise."
+            );
+        }
+        for (size_t i = 0; i < get_total_size(); i++) {
+            get_data()[i] += static_cast<dtype>(other.get_data()[i]);
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator -=(const NArray<T>& other) {
+        if (!same_shape(*this, other)) {
+            throw error::ShapeError(
+                "Cannot subtract shapes " + util::toString(shape()) + " and " +
+                util::toString(other.shape()) + " elementwise."
+            );
+        }
+        for (size_t i = 0; i < get_total_size(); i++) {
+            get_data()[i] -= static_cast<dtype>(other.get_data()[i]);
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator *=(const NArray<T>& other) {
+        if (!same_shape(*this, other)) {
+            throw error::ShapeError(
+                "Cannot multiply together shapes " + util::toString(shape()) + " and " +
+                util::toString(other.shape()) +
+                " elementwise. For matrix multiplication try using numxx::matmul() or numxx::Matrix::operator*()."
+            );
+        }
+        for (size_t i = 0; i < get_total_size(); i++) {
+            get_data()[i] *= static_cast<dtype>(other.get_data()[i]);
+        }
+        return *this;
+    }
+
+    template <typename T>
+    NArray& operator /=(const NArray<T>& other) {
+        if (!same_shape(*this, other)) {
+            throw error::ShapeError(
+                "Cannot divide shapes " + util::toString(shape()) + " and " +
+                util::toString(other.shape()) + " elementwise."
+            );
+        }
+        for (size_t i = 0; i < get_total_size(); i++) {
+            get_data()[i] /= static_cast<dtype>(other.get_data()[i]);
+        }
+        return *this;
+    }
+
+    friend dtype& operator+=(dtype& other, NArray& self) {
+        if (self.get_total_size() == 1) {
+            other += *self.get_data();
+        } else {
+            throw error::ShapeError("Cannot add NArray to a single element.");
+        }
+        return other;
+    }
+
+    friend dtype& operator-=(dtype& other, NArray& self) {
+        if (self.get_total_size() == 1) {
+            other -= *self.get_data();
+        } else {
+            throw error::ShapeError("Cannot subtract NArray from a single element.");
+        }
+        return other;
+    }
+
+    friend dtype& operator*=(dtype& other, NArray& self) {
+        if (self.get_total_size() == 1) {
+            other *= *self.get_data();
+        } else {
+            throw error::ShapeError("Cannot multiply single element by an NArray.");
+        }
+        return other;
+    }
+
+    friend dtype& operator/=(dtype& other, NArray& self) {
+        if (self.get_total_size() == 1) {
+            other /= *self.get_data();
+        } else {
+            throw error::ShapeError("Cannot divide single element by NArray.");
+        }
+        return other;
+    }
+
+
+    /* NArray operation overloads */
+
     // Array addition
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     auto operator+(const NArray<T>& other) const {
@@ -797,7 +928,7 @@ public:
     }
 
 
-    /* Print Overload */
+    /* ====== Print Overload ====== */
     friend std::ostream& operator<<(std::ostream& os, const NArray& arr) {
         // Check if the array is empty
         if (arr._shape.get_Ndim() == 0) {

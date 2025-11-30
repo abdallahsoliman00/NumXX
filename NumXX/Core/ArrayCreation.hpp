@@ -7,37 +7,37 @@ namespace numxx {
     // TODO: Open https://numpy.org/doc/2.3/reference/routines.array-creation.html and implement functions.
 
     // Creates an array filled with zeros
-    template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+    template <typename T = double>
     NArray<T> zeros(const size_t& size) {
         return NArray<T>(size, T());
     }
 
-    template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-    NArray<T> zeros(const Shape& shape) {
-        return NArray<T>(shape, T());
+    template <typename T = double>
+    NArray<T> zeros(Shape shape) {
+        return NArray<T>(std::move(shape), T());
     }
 
     // Creates an array of zeros with the same shape as another array
-    template <typename T = double, typename U, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+    template <typename T = double, typename U>
     NArray<T> zeros_like(const NArray<U>& other) {
         return NArray<T>(other.get_shape(), T());
     }
 
-    template <typename T = double, typename U, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+    template <typename T = double, typename U>
     NArray<T> zeros_like(const std::vector<U>& other) {
         return NArray<T>(other.size(), T());
     }
 
 
     // Creates an array filled with ones
-    template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+    template <typename T = double, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     NArray<T> ones(const size_t& size) {
         return NArray<T>(size, static_cast<T>(1));
     }
 
     template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-    NArray<T> ones(const Shape& shape) {
-        return NArray<T>(shape, static_cast<T>(1));
+    NArray<T> ones(Shape shape) {
+        return NArray<T>(std::move(shape), static_cast<T>(1));
     }
 
 
@@ -51,39 +51,38 @@ namespace numxx {
     // Creates an array of evenly spaced values within a given interval
     inline NArray<double> linspace(const float& start, const float& stop, const size_t& count, const bool& endpoint = true) {
         const float step = (stop - start)/(count - static_cast<float>(endpoint));
-        std::vector<double> out(count);
+        NArray<double> out(Shape{count});
 
-        for(size_t i = 1; i < count; i++) {
-            out[i] = start + (step * i);
+        for(size_t i = 0; i < count; i++) {
+            out(i) = start + (step * i);
         }
-        return NArray(out);
+        return out;
     }
 
 
     // Creates an array with values from start to stop with a given step
-    inline NArray<double> arange(const float& start, const float& stop, const float& step = 1) {
+    inline NArray<double> arange(const float& start, const float& stop, const double& step = 1) {
         const auto count = static_cast<size_t>(1 + (stop - start)/step);
-        std::vector<double> out(count);
+        NArray<double> out(Shape{count});
 
-        for(size_t i = 1; i < count; i++) {
-            out[i] = start + step * i;
+        for(int i = 0; i < count; i++) {
+            out(i) = start + step * i;
         }
-        return NArray(std::move(out));
+        return out;
     }
 
 
     // Creates a 2D identity matrix with ones on the diagonal
-    template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-    NArray<T> eye(size_t n, size_t m = 0) {
+    template <typename T = double, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
+    NArray<T> eye(const size_t n, size_t m = 0) {
         if (m == 0) m = n;
 
-        std::vector<T> out_data(n * m, static_cast<T>(0));
+        NArray<T> out_data(Shape{n, m}, T());
 
         for (size_t i = 0; i < n && i < m; ++i) {
-            out_data[i * m + i] = static_cast<T>(1);
+            out_data(i * m + i) = static_cast<T>(1);
         }
-
-        return NArray<T>(std::move(out_data), Shape({n, m}));
+        return out_data;
     }
 
 
