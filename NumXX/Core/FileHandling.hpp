@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-#include "Containers/NArray.hpp"
+#include "../Containers/NArray.hpp"
 
 #define NARRAY_FILE_PREFIX "NumXX::NArray"
 
