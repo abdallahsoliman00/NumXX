@@ -68,7 +68,7 @@ protected:
 
     // Gets the total size required to store multiple NArrays
     static void get_size_requirements(
-        size_t& size, int& depth, const NArray& arr
+        size_t size, int depth, const NArray& arr
     ) {
         size += arr.get_total_size();
         depth++;
@@ -76,7 +76,7 @@ protected:
 
     template <typename... Arrays>
     static void get_size_requirements(
-        size_t& size, int& depth, 
+        size_t size, int depth,
         const NArray& arr, const NArray& next, 
         const Arrays&... rest
     ) {
@@ -119,8 +119,8 @@ protected:
 
 
     // Enables Python-like indexing with negative indexes wrapping around (for viewing/slicing)
-    [[nodiscard]] size_t get_index(const long long int& index) const {
-        auto size = static_cast<long long int>(_shape[0]);
+    [[nodiscard]] size_t get_index(const long long index) const {
+        const auto size = static_cast<long long>(_shape[0]);
 
         if((index >= 0) && (index < size))
             return static_cast<size_t>(index);
@@ -131,7 +131,7 @@ protected:
     }
 
     // Enables Python-like indexing with negative indexes wrapping around (for accessing elements)
-    [[nodiscard]] size_t get_element_index(const long long int& index) const {
+    [[nodiscard]] size_t get_element_index(const long long int index) const {
         auto const size = get_total_size();
 
         if((index >= 0) && (index < size))
@@ -162,7 +162,7 @@ protected:
 
     // Performs the scalar operation to the right of each element in the array
     template <typename T, typename Func>
-    auto fullVecOpR(const T& scalar, Func func)
+    auto fullVecOpR(const T scalar, Func func)
         const -> NArray<decltype(func(std::declval<dtype>(), std::declval<T>()))>
     {
         using U = decltype(func(std::declval<dtype>(), std::declval<T>()));
@@ -177,7 +177,7 @@ protected:
 
     // Performs the scalar operation to the left of each element in the array
     template <typename T, typename Func>
-    auto fullVecOpL(const T& scalar, Func func)
+    auto fullVecOpL(const T scalar, Func func)
         const -> NArray<decltype(func(std::declval<T>(), std::declval<dtype>()))>
     {
         using U = decltype(func(std::declval<T>(), std::declval<dtype>()));
@@ -314,12 +314,12 @@ public:
 
     // Array constructor from heap array (ownership takeover)
     template <typename Deleter>
-    NArray(dtype *array, const size_t& size, Deleter deleter) :
+    NArray(dtype *array, const size_t size, Deleter deleter) :
         _data_ptr(array, deleter), _shape({size}) {}
 
 
     // Array constructor from heap array (copy)
-    NArray(dtype *array, const size_t& size) :
+    NArray(dtype *array, const size_t size) :
         _data_ptr(new dtype[size], std::default_delete<dtype[]>()),
         _shape({size})
     {
@@ -531,7 +531,7 @@ public:
 
     // Array addition
     template <typename T>
-    NArray& operator+=(const T& other) {
+    NArray& operator+=(const T other) {
         for (int i = 0; i < get_total_size(); i++) {
             get_data()[i] += other;
         }
@@ -539,7 +539,7 @@ public:
     }
 
     template <typename T>
-    NArray& operator-=(const T& other) {
+    NArray& operator-=(const T other) {
         for (int i = 0; i < get_total_size(); i++) {
             get_data()[i] -= other;
         }
@@ -547,7 +547,7 @@ public:
     }
 
     template <typename T>
-    NArray& operator*=(const T& other) {
+    NArray& operator*=(const T other) {
         for (int i = 0; i < get_total_size(); i++) {
             get_data()[i] *= other;
         }
@@ -555,7 +555,7 @@ public:
     }
 
     template <typename T>
-    NArray& operator/=(const T& other) {
+    NArray& operator/=(const T other) {
         for (int i = 0; i < get_total_size(); i++) {
             get_data()[i] /= other;
         }
@@ -703,35 +703,35 @@ public:
     // Right exponent overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     auto operator^(T num) const {
-        return fullVecOpR(num, [] (const dtype& b, const T& e) { return util::pow(b,e); });
+        return fullVecOpR(num, [] (const dtype b, const T e) { return util::pow(b,e); });
     }
 
 
     // Right addition overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     auto operator+(T num) const {
-        return fullVecOpR(num, [] (const dtype& a, const T& b) { return a + b; });
+        return fullVecOpR(num, [] (const dtype a, const T b) { return a + b; });
     }
 
 
     // Right subtraction overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     auto operator-(T num) const {
-        return fullVecOpR(num, [] (const dtype& a, const T& b) { return a + b; });
+        return fullVecOpR(num, [] (const dtype a, const T b) { return a + b; });
     }
 
 
     // Right multiplication overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     auto operator*(T num) const {
-        return fullVecOpR(num, [] (const dtype& a, const T& b) { return a * b; });
+        return fullVecOpR(num, [] (const dtype a, const T b) { return a * b; });
     }
 
 
     // Right division overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     auto operator/(T num) const {
-        return fullVecOpR(num, [] (const dtype& a, const T& b) { return a / b; });
+        return fullVecOpR(num, [] (const dtype a, const T b) { return a / b; });
     }
 
 
@@ -739,41 +739,41 @@ public:
     // Left base overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     friend auto operator^(T num, const NArray& arr) {
-        return arr.fullVecOpL(num, [] (const T& b, const dtype& e) { return util::pow(b,e); });
+        return arr.fullVecOpL(num, [] (const T b, const dtype e) { return util::pow(b,e); });
     }
 
 
     // Left addition overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     friend auto operator+(T num, const NArray& arr) {
-        return arr.fullVecOpL(num, [] (const T& a, const dtype& b) { return a + b; });
+        return arr.fullVecOpL(num, [] (const T a, const dtype b) { return a + b; });
     }
 
 
     // Left subtraction overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     friend auto operator-(T num, const NArray& arr) {
-        return arr.fullVecOpL(num, [] (const T& a, const dtype& b) { return a - b; });
+        return arr.fullVecOpL(num, [] (const T a, const dtype b) { return a - b; });
     }
 
 
     // Left multiplication overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     friend auto operator*(T num, const NArray& arr) {
-        return arr.fullVecOpL(num, [] (const T& a, const dtype& b) { return a * b; });
+        return arr.fullVecOpL(num, [] (const T a, const dtype b) { return a * b; });
     }
 
 
     // Left division overload
     template <typename T, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
     friend auto operator/(T num, const NArray& arr) {
-        return arr.fullVecOpL(num, [] (const T& a, const dtype& b) { return a / b; });
+        return arr.fullVecOpL(num, [] (const T a, const dtype b) { return a / b; });
     }
 
 
     // Negation overload
     friend auto operator-(const NArray& arr) {
-        return arr.fullVecOpL(dtype(-1), [] (const dtype& a, const dtype& b) { return a * b; });
+        return arr.fullVecOpL(dtype(-1), [] (const dtype a, const dtype b) { return a * b; });
     }
 
     // Do nothing, but just in case someone uses it overload
@@ -786,39 +786,39 @@ public:
 
     template <typename T>
     NArray<bool> operator==(const NArray<T>& other) const {
-        return elementwiseCompare(other, [] (const dtype& a, const T& b) { return a == b; } );
+        return elementwiseCompare(other, [] (const dtype a, const T b) { return a == b; } );
     }
 
     template <typename T>
     NArray<bool> operator!=(const NArray<T>& other) const {
-        return elementwiseCompare(other, [] (const dtype& a, const T& b) { return a != b; } );
+        return elementwiseCompare(other, [] (const dtype a, const T b) { return a != b; } );
     }
 
     template <typename T>
     NArray<bool> operator<=(const NArray<T>& other) const {
-        return elementwiseCompare(other, [] (const dtype& a, const T& b) { return a <= b; });
+        return elementwiseCompare(other, [] (const dtype a, const T b) { return a <= b; });
     }
 
     template <typename T>
     NArray<bool> operator>=(const NArray<T>& other) const {
-        return elementwiseCompare(other, [] (const dtype& a, const T& b) { return a >= b; });
+        return elementwiseCompare(other, [] (const dtype a, const T b) { return a >= b; });
     }
 
     template <typename T>
     NArray<bool> operator<(const NArray<T>& other) const {
-        return elementwiseCompare(other, [] (const dtype& a, const T& b) { return a < b; });
+        return elementwiseCompare(other, [] (const dtype a, const T b) { return a < b; });
     }
 
     template <typename T>
     NArray<bool> operator>(const NArray<T>& other) const {
-        return elementwiseCompare(other, [] (const dtype& a, const T& b) { return a > b; });
+        return elementwiseCompare(other, [] (const dtype a, const T b) { return a > b; });
     }
 
 
 
     /* Index Overload */
     // For slicing / viewing
-    NArray operator[](const long long int& i) const {
+    NArray operator[](const long long int i) const {
         auto index = get_index(i);
 
         if (_shape.get_Ndim() == 1)
@@ -829,7 +829,7 @@ public:
         return NArray(_data_ptr, slice_start, std::move(new_shape));
     }
 
-    NArray operator[](const long long int& i) {
+    NArray operator[](const long long int i) {
         auto index = get_index(i);
 
         if (_shape.get_Ndim() == 1)
@@ -841,7 +841,7 @@ public:
     }
 
     // For direct access to the elements
-    dtype& operator()(const long long int& i) const {
+    dtype& operator()(const long long int i) const {
         return _data_ptr.get()[get_element_index(i)];
     }
 

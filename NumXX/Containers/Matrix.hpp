@@ -42,7 +42,7 @@ public:
 
 
     // Scalar constructor
-    explicit Matrix(const dtype& num) : NArray<dtype>(num) {
+    explicit Matrix(const dtype num) : NArray<dtype>(num) {
         this->_shape = Shape({1,1});
     }
 

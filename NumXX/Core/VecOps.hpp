@@ -121,11 +121,11 @@ auto cross(const NArray<T>& a, const NArray<U>& b)
         throw error::ShapeError("Both input arrays must have shapes (2,) or (3,).");
     }
 
-    const T &x = a(0), &y = a(1); T z;
+    const T x = a(0), y = a(1); T z;
     if (a.get_shape()[0] == 2) z = 0;
     else z = a(2);
 
-    const U &p = b(0), &q = b(1); U r;
+    const U p = b(0), q = b(1); U r;
     if (b.get_shape()[0] == 2) r = 0;
     else r = b(2);
 

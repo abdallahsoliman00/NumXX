@@ -18,3 +18,15 @@ target_include_directories(
     NumXX INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/NumXX
 )
+
+# To build tests, add the following flag to the `cmake` command: -DBUILD_TESTS=ON
+option(BUILD_TESTS "Build the test suite" OFF)
+
+function(build_test file_name)
+    add_executable(${file_name} unit_tests/${file_name}.cpp)
+    target_link_libraries(${file_name} PUBLIC NumXX)
+endfunction()
+
+if(BUILD_TESTS)
+    build_test(general_testing)
+endif()

@@ -108,7 +108,7 @@ namespace numxx {
 
         // For each output element
         for (size_t out_idx = 0; out_idx < out_shape.get_total_size(); out_idx++) {
-            // Convert flat output index to multi-dimensional coords
+            // Convert flat output index to multidimensional coords
             size_t coords[ndim];
             size_t temp = out_idx;
             for (size_t d = 0; d < ndim; d++) {

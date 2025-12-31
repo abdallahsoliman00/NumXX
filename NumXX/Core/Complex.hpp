@@ -27,16 +27,16 @@ public:
     complex() : _real(0), _imaginary(0) {}
 
     // Normal constructor
-    constexpr complex(const T& real, const T& imag = 0) : _real(real), _imaginary(imag) {}
+    constexpr complex(const T real, const T imag = 0) : _real(real), _imaginary(imag) {}
 
     // Constructor form std::complex
     complex(const std::complex<T> num) : _real(num.real()), _imaginary(num.imag()) {}
 
     // Copy constructor
-    complex(const complex& num) : _real(num.real()), _imaginary(num.imag()) {}
+    complex(const complex&) = default;
 
     // Move constructor
-    complex(complex&& num) noexcept : _real(std::move(num._real)), _imaginary(std::move(num._imaginary)) {}
+    complex(complex&&) noexcept = default;
 
 
     /* ====== Helpers ====== */
@@ -84,7 +84,7 @@ public:
 
     // operator==
     template <typename U>
-    bool operator==(const complex<U>& other) const {
+    bool operator==(const complex<U> other) const {
         return (_real == other.real()) && (_imaginary == other.imag());
     }
 
@@ -94,14 +94,14 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend bool operator==(const U scalar, const complex& other) {
+    friend bool operator==(const U scalar, const complex other) {
         return (scalar == other.real()) && (0 == other.imag());
     }
 
 
     // operator!=
     template <typename U>
-    bool operator!=(const complex<U>& other) const {
+    bool operator!=(const complex<U> other) const {
         return !(*this == other);
     }
 
@@ -111,14 +111,14 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend bool operator!=(const U scalar, const complex& other) {
+    friend bool operator!=(const U scalar, const complex other) {
         return !(scalar == other);
     }
 
 
     // operator< (compares magnitudes)
     template <typename U>
-    bool operator<(const complex<U>& other) const {
+    bool operator<(const complex<U> other) const {
         return this->abs() < other.abs();
     }
 
@@ -128,14 +128,14 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend bool operator<(const U scalar, const complex& other) {
+    friend bool operator<(const U scalar, const complex other) {
         return std::abs(scalar) < other.abs();
     }
 
 
     // operator<= (compares magnitudes)
     template <typename U>
-    bool operator<=(const complex<U>& other) const {
+    bool operator<=(const complex<U> other) const {
         return this->abs() <= other.abs();
     }
 
@@ -145,14 +145,14 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend bool operator<=(const U scalar, const complex& other) {
+    friend bool operator<=(const U scalar, const complex other) {
         return std::abs(scalar) <= other.abs();
     }
 
 
     // operator> (compares magnitudes)
     template <typename U>
-    bool operator>(const complex<U>& other) const {
+    bool operator>(const complex<U> other) const {
         return this->abs() > other.abs();
     }
 
@@ -162,14 +162,14 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend bool operator>(const U scalar, const complex& other) {
+    friend bool operator>(const U scalar, const complex other) {
         return std::abs(scalar) > other.abs();
     }
 
 
     // operator>= (compares magnitudes)
     template <typename U>
-    bool operator>=(const complex<U>& other) const {
+    bool operator>=(const complex<U> other) const {
         return this->abs() >= other.abs();
     }
 
@@ -179,7 +179,7 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend bool operator>=(const U scalar, const complex& other) {
+    friend bool operator>=(const U scalar, const complex other) {
         return std::abs(scalar) >= other.abs();
     }
 
@@ -189,7 +189,7 @@ public:
 
     // operator+
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    auto operator+(const complex<U>& other) const
+    auto operator+(const complex<U> other) const
         -> complex<decltype(std::declval<T>()+std::declval<U>())>
     {
         using R = decltype(std::declval<T>()+std::declval<U>());
@@ -205,7 +205,7 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend auto operator+(const U scalar, const complex& other)
+    friend auto operator+(const U scalar, const complex other)
         -> complex<decltype(std::declval<T>()+std::declval<U>())>
     {
         using R = decltype(std::declval<T>()+std::declval<U>());
@@ -213,7 +213,7 @@ public:
     }
 
     template <typename U>
-    auto operator+(const std::complex<U>& other) const
+    auto operator+(const std::complex<U> other) const
         -> complex<decltype(std::declval<T>()+std::declval<U>())>
     {
         using R = decltype(std::declval<T>()+std::declval<U>());
@@ -221,7 +221,7 @@ public:
     }
 
     template <typename U>
-    friend auto operator+(const std::complex<U>& lhs, const complex& rhs)
+    friend auto operator+(const std::complex<U> lhs, const complex rhs)
         -> complex<decltype(std::declval<U>()+std::declval<T>())>
     {
         using R = decltype(std::declval<U>()+std::declval<T>());
@@ -231,7 +231,7 @@ public:
 
     // operator-
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    auto operator-(const complex<U>& other) const
+    auto operator-(const complex<U> other) const
         -> complex<decltype(std::declval<T>()-std::declval<U>())>
     {
         using R = decltype(std::declval<T>()-std::declval<U>());
@@ -247,7 +247,7 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend auto operator-(const U scalar, const complex& other)
+    friend auto operator-(const U scalar, const complex other)
         -> complex<decltype(std::declval<T>()-std::declval<U>())>
     {
         using R = decltype(std::declval<T>()-std::declval<U>());
@@ -255,7 +255,7 @@ public:
     }
 
     template <typename U>
-    auto operator-(const std::complex<U>& other) const
+    auto operator-(const std::complex<U> other) const
         -> complex<decltype(std::declval<T>()-std::declval<U>())>
     {
         using R = decltype(std::declval<T>()-std::declval<U>());
@@ -263,7 +263,7 @@ public:
     }
 
     template <typename U>
-    friend auto operator-(const std::complex<U>& lhs, const complex& rhs)
+    friend auto operator-(const std::complex<U> lhs, const complex rhs)
         -> complex<decltype(std::declval<U>()-std::declval<T>())>
     {
         using R = decltype(std::declval<U>()-std::declval<T>());
@@ -273,7 +273,7 @@ public:
 
     // operator*
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    auto operator*(const complex<U>& other) const
+    auto operator*(const complex<U> other) const
         -> complex<decltype(std::declval<T>()*std::declval<U>())>
     {
         using R = decltype(std::declval<T>()*std::declval<U>());
@@ -291,7 +291,7 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend auto operator*(const U scalar, const complex& other)
+    friend auto operator*(const U scalar, const complex other)
         -> complex<decltype(std::declval<T>()*std::declval<U>())>
     {
         using R = decltype(std::declval<T>()*std::declval<U>());
@@ -299,7 +299,7 @@ public:
     }
 
     template <typename U>
-    auto operator*(const std::complex<U>& other) const
+    auto operator*(const std::complex<U> other) const
         -> complex<decltype(std::declval<T>()*std::declval<U>())>
     {
         using R = decltype(std::declval<T>()*std::declval<U>());
@@ -308,7 +308,7 @@ public:
     }
 
     template <typename U>
-    friend auto operator*(const std::complex<U>& lhs, const complex& rhs)
+    friend auto operator*(const std::complex<U> lhs, const complex rhs)
         -> complex<decltype(std::declval<U>()*std::declval<T>())>
     {
         using R = decltype(std::declval<U>()*std::declval<T>());
@@ -320,7 +320,7 @@ public:
 
     // operator/
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    auto operator/(const complex<U>& other) const
+    auto operator/(const complex<U> other) const
         -> complex<decltype(std::declval<T>()/std::declval<U>())>
     {
         using R = decltype(std::declval<T>()/std::declval<U>());
@@ -339,7 +339,7 @@ public:
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    friend auto operator/(const U scalar, const complex& other)
+    friend auto operator/(const U scalar, const complex other)
         -> complex<decltype(std::declval<T>()/std::declval<U>())>
     {
         using R = decltype(std::declval<T>()/std::declval<U>());
@@ -351,7 +351,7 @@ public:
     }
 
     template <typename U>
-    auto operator/(const std::complex<U>& other) const
+    auto operator/(const std::complex<U> other) const
         -> complex<decltype(std::declval<T>()/std::declval<U>())>
     {
         using R = decltype(std::declval<T>()/std::declval<U>());
@@ -361,7 +361,7 @@ public:
     }
 
     template <typename U>
-    friend auto operator/(const std::complex<U>& lhs, const complex& rhs)
+    friend auto operator/(const std::complex<U> lhs, const complex rhs)
         -> complex<decltype(std::declval<U>()/std::declval<T>())>
     {
         using R = decltype(std::declval<U>()/std::declval<T>());
@@ -373,20 +373,20 @@ public:
 
     // operator +=
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator+=(const U& other) {
+    complex& operator+=(const U other) {
         _real += other;
         return *this;
     }
 
     template <typename U>
-    complex& operator+=(const complex<U>& other) {
+    complex& operator+=(const complex<U> other) {
         _real += other.real();
         _imaginary += other.imag();
         return *this;
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator+=(const std::complex<U>& other) {
+    complex& operator+=(const std::complex<U> other) {
         _real += other.real();
         _imaginary += other.imag();
         return *this;
@@ -395,20 +395,20 @@ public:
 
     // operator -=
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator-=(const U& other) {
+    complex& operator-=(const U other) {
         _real -= other;
         return *this;
     }
 
     template <typename U>
-    complex& operator-=(const complex<U>& other) {
+    complex& operator-=(const complex<U> other) {
         _real -= other.real();
         _imaginary -= other.imag();
         return *this;
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator-=(const std::complex<U>& other) {
+    complex& operator-=(const std::complex<U> other) {
         _real -= other.real();
         _imaginary -= other.imag();
         return *this;
@@ -417,20 +417,20 @@ public:
 
     // operator *=
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator*=(const U& other) {
+    complex& operator*=(const U other) {
         _real *= other;
         _imaginary *= other;
         return *this;
     }
 
     template <typename U>
-    complex& operator*=(const complex<U>& other) {
+    complex& operator*=(const complex<U> other) {
         *this = this->operator*(other);
         return *this;
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator*=(const std::complex<U>& other) {
+    complex& operator*=(const std::complex<U> other) {
         *this = this->operator*(other);
         return *this;
     }
@@ -438,20 +438,20 @@ public:
 
     // operator /=
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator/=(const U& other) {
+    complex& operator/=(const U other) {
         _real /= other;
         _imaginary /= other;
         return *this;
     }
 
     template <typename U>
-    complex& operator/=(const complex<U>& other) {
+    complex& operator/=(const complex<U> other) {
         *this = this->operator/(other);
         return *this;
     }
 
     template <typename U, typename = std::enable_if_t<std::is_arithmetic_v<U>>>
-    complex& operator/=(const std::complex<U>& other) {
+    complex& operator/=(const std::complex<U> other) {
         *this = this->operator/(other);
         return *this;
     }
@@ -467,44 +467,44 @@ private:
 /* ====== Function Wrappers ====== */
 
 template <typename T>
-T real(const complex<T>& num) { return num.real(); }
+T real(const complex<T> num) { return num.real(); }
 
 template <typename T>
-T imag(const complex<T>& num) { return num.imag(); }
+T imag(const complex<T> num) { return num.imag(); }
 
 template <typename T>
-double abs(const complex<T>& num) {
+double abs(const complex<T> num) {
     return num.abs();
 }
 
 template <typename T>
-double arg(const complex<T>& num) {
+double arg(const complex<T> num) {
     return num.arg();
 }
 
 template <typename T>
-double angle(const complex<T>& num) {
+double angle(const complex<T> num) {
     return num.arg();
 }
 
 template <typename T>
-complex<T> conj(const complex<T>& num) {
+complex<T> conj(const complex<T> num) {
     return num.conj();
 }
 
 template <typename T>
-complex<T> polar(const T& rho, const T& theta) {
+complex<T> polar(const T rho, const T theta) {
     if (!rho) return complex<T>(0,0);
     return complex<T>(rho*std::cos(theta), rho*std::sin(theta));
 }
 
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-T real(const T& num)
+T real(const T num)
     { return num; }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-T real(const std::complex<T>& num)
+T real(const std::complex<T> num)
     { return num.real(); }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
@@ -516,19 +516,19 @@ T imag(const std::complex<T>& num)
     { return num.imag(); }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-double abs(const T& num)
+double abs(const T num)
     { return num >= 0 ? num : -num ; }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-double arg(const T& num)
+double arg(const T num)
     { return num >= 0 ? 0 : pi ; }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-double angle(const T& num)
+double angle(const T num)
     { return num >= 0 ? 0 : pi ; }
 
 template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
-T conj(const T& num)
+T conj(const T num)
     { return num; }
 
 

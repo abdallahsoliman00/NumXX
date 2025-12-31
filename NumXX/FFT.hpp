@@ -49,7 +49,7 @@ namespace numxx::fft {
     }
 
 
-    inline NArray<double> fftfreq(const size_t& n_samples, const float& diff = 1.0f) {
+    inline NArray<double> fftfreq(const size_t n_samples, const float diff = 1.0f) {
         const size_t N_2 = (n_samples + 1) / 2;
         NArray<double> out(Shape{n_samples});
 

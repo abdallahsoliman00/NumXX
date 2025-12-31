@@ -8,7 +8,7 @@ namespace numxx {
 
     // Creates an array filled with zeros
     template <typename T = double>
-    NArray<T> zeros(const size_t& size) {
+    NArray<T> zeros(const size_t size) {
         return NArray<T>(size, T());
     }
 
@@ -31,7 +31,7 @@ namespace numxx {
 
     // Creates an array filled with ones
     template <typename T = double, typename = std::enable_if_t<is_complex_or_arithmetic_v<T>>>
-    NArray<T> ones(const size_t& size) {
+    NArray<T> ones(const size_t size) {
         return NArray<T>(size, static_cast<T>(1));
     }
 
@@ -49,7 +49,7 @@ namespace numxx {
 
 
     // Creates an array of evenly spaced values within a given interval
-    inline NArray<double> linspace(const float& start, const float& stop, const size_t& count, const bool& endpoint = true) {
+    inline NArray<double> linspace(const float start, const float stop, const size_t count, const bool endpoint = true) {
         const float step = (stop - start)/(count - static_cast<float>(endpoint));
         NArray<double> out(Shape{count});
 
@@ -61,7 +61,7 @@ namespace numxx {
 
 
     // Creates an array with values from start to stop with a given step
-    inline NArray<double> arange(const float& start, const float& stop, const double& step = 1) {
+    inline NArray<double> arange(const float start, const float stop, const double step = 1) {
         const auto count = static_cast<size_t>(1 + (stop - start)/step);
         NArray<double> out(Shape{count});
 
