@@ -68,7 +68,7 @@ protected:
 
     // Gets the total size required to store multiple NArrays
     static void get_size_requirements(
-        size_t size, int depth, const NArray& arr
+        size_t& size, int& depth, const NArray& arr
     ) {
         size += arr.get_total_size();
         depth++;
@@ -76,7 +76,7 @@ protected:
 
     template <typename... Arrays>
     static void get_size_requirements(
-        size_t size, int depth,
+        size_t& size, int& depth,
         const NArray& arr, const NArray& next, 
         const Arrays&... rest
     ) {
