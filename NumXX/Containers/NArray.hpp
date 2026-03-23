@@ -211,7 +211,7 @@ protected:
         os << '[';
         for(size_t i = 0; i < arr._shape[0]; i++) {
             if constexpr (std::is_same_v<dtype, bool>) {
-                os << (arr.get_data()[i] ? " true" : " false");
+                os << (arr.get_data()[i] ? " true " : " false");
             } else if constexpr (is_complex_or_arithmetic_v<dtype>) {
                 os << util::num_to_str_from_attributes(arr.get_data()[i], attributes);
             } else {
@@ -1113,7 +1113,7 @@ public:
 /* ====== Deduction guides ======= */
 
 // Scalar constructor
-template < typename T>
+template <typename T>
 NArray(T) -> NArray<T>;
 
 // Vector constructor
@@ -1141,11 +1141,11 @@ template <typename T>
 NArray(std::vector<T>, Shape) -> NArray<T>;
 
 // Shape + initializer value constructor
-template < typename T>
+template <typename T>
 NArray(Shape, T) -> NArray<T>;
 
 // Constructor from shared_ptr (used for slicing)
-template < typename T>
+template <typename T>
 NArray(std::shared_ptr<T>, T*, Shape) -> NArray<T>;
 
 // Shared pointer + shape constructor

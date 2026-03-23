@@ -13,12 +13,12 @@ namespace numxx::util {
 /* A struct containing any attributes that
 will be used to format NArray printing */
 typedef struct PrintAttributes {
-    bool is_scientific = false;
     int largest_exponent = 0;
-    bool is_complex = false;
-    bool negative = false;
     int left_padding = 0;
     int right_padding = 0;
+    bool is_scientific = false;
+    bool is_complex = false;
+    bool negative = false;
 } PrintAttributes;
 
 
@@ -278,5 +278,9 @@ std::string num_to_str_from_attributes(const std::complex<T>& num, const PrintAt
     }
     return num_to_str_from_attributes(num.real(), attributes);
 }
+
+
+// TODO: The biggest issue here is that the numbers used to calculate PrintAttributes are
+// different to the ones being printed. The main cause is usually floating point number precision.
 
 } // namespace numxx::util

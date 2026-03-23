@@ -4,7 +4,7 @@
 #include "../Containers/NArray.hpp"
 
 namespace numxx {
-    // TODO: Open https://numpy.org/doc/2.3/reference/routines.array-creation.html and implement functions.
+    // TODO: Open https://numpy.org/doc/stable/reference/routines.array-creation.html and implement functions.
 
     // Creates an array filled with zeros
     template <typename T = double>
@@ -49,8 +49,8 @@ namespace numxx {
 
 
     // Creates an array of evenly spaced values within a given interval
-    inline NArray<double> linspace(const float start, const float stop, const size_t count, const bool endpoint = true) {
-        const float step = (stop - start)/(count - static_cast<float>(endpoint));
+    inline NArray<double> linspace(const double start, const double stop, const uint32_t count, const bool endpoint = true) {
+        const double step = (stop - start)/(count - static_cast<double>(endpoint));
         NArray<double> out(Shape{count});
 
         for(size_t i = 0; i < count; i++) {
@@ -61,11 +61,28 @@ namespace numxx {
 
 
     // Creates an array with values from start to stop with a given step
-    inline NArray<double> arange(const float start, const float stop, const double step = 1) {
-        const auto count = static_cast<size_t>(1 + (stop - start)/step);
+    inline NArray<double> arange(const double start, const double stop, const double step = 1.0) {
+        if ((start > stop) && (step > 0)) return NArray<double>();
+        if (step == 0.0) return NArray<double>();
+
+        const auto count = static_cast<size_t>(std::ceil((stop - start) / step));
         NArray<double> out(Shape{count});
 
-        for(int i = 0; i < count; i++) {
+        for(int i = 0; i < count; ++i) {
+            out(i) = start + step * i;
+        }
+        return out;
+    }
+    
+    template <typename T = double, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+    inline NArray<T> arange(const T start, const T stop, const T step = T(1)) {
+        if ((start > stop) && (step > 0)) return NArray<T>();
+        if (step == T()) return NArray<T>();
+
+        const auto count = static_cast<size_t>(std::ceil((stop - start) / step));
+        NArray<T> out(Shape{count});
+
+        for(int i = 0; i < count; ++i) {
             out(i) = start + step * i;
         }
         return out;
@@ -157,6 +174,50 @@ namespace numxx {
     template <typename T>
     T deepcopy(const T& elem) {
         return T(elem);
+    }
+
+
+    inline NArray<double> logspace(
+        const float start, const float stop, const uint32_t num = 50,
+        const bool endpoint = true, const float base = 10.0f
+    ) {
+        if (num == 0) return {};
+        if (num == 1 && endpoint) {
+            return NArray<double>({stop});
+        }
+
+        const float step = (stop - start)/(static_cast<float>(num) - static_cast<float>(endpoint));
+        NArray<double> out(Shape{num});
+
+        for(int i = 0; i < num; i++) {
+            out(i) = std::powf(base, start + (step * i));
+        }
+        return out;
+    }
+
+
+    inline NArray<double> geomspace(
+        const float start, const float stop, const uint32_t num = 50, const bool endpoint = true
+    ) {
+        if (num == 0) return {};
+        if (num == 1 && endpoint) {
+            return NArray<double>({stop});
+        }
+
+        const auto ratio = std::powf(stop / start, (1.0f/(static_cast<float>(num) - static_cast<float>(endpoint))));
+
+        NArray<double> out(Shape{num});
+        out(0) = start;
+
+        for (int i = 1; i < num; ++i) {
+            out(i) = out(i - 1) * ratio;
+        }
+
+        if (endpoint) {
+            out(num - 1) = stop;
+        }
+
+        return out;
     }
 
 } // namespace numxx
