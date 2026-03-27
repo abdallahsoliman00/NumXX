@@ -7,6 +7,14 @@ A C++ header-only library inspired by NumPy.
 
 (Compatible with C++17 and above)
 
+## Tabe of Contents
+1. [<u>Overview</u>](#overview)
+2. [<u>How To Use</u>](#how-to-use)
+3. [<u>Project Status</u>](#project-status)
+4. [<u>More Documentation</u>](#more-documentation)
+5. [<u>Contribution</u>](#contribution)
+6. [<u>Disclaimer</u>](#disclaimer)
+
 ## Overview
 **NumXX** is an implementation of NumPy in C++. It hopes to bring about the easy number and array manipulation found in NumPy ... but in C++.
 
@@ -77,12 +85,19 @@ Try this in NumXX:
 #include "NumXX.hpp"
 namespace nx = numxx;
 
-auto x = nx::NArray({1,2,3,4});
-nx::sum(x);
+int main() {
+    auto x = nx::NArray({1,2,3,4});
+    nx::sum(x);
+}
 ```
 If it doesn't exist, it hasn't been implemented yet, and if you're feeling generous perhaps you can implement it yourself and open a pull request.
 
 To see a small taster snippet of code, see this [examples](examples.cpp) file.
+
+
+## More Documentation
+This is only a README to help you get started quickly. For a more comprehensive documentation, please see the link below:\
+[https://abdallahsoliman00.github.io/NumXX-Docs/](https://abdallahsoliman00.github.io/NumXX-Docs/)
 
 
 ## Contribution
@@ -90,7 +105,7 @@ This repository is open to contributions. If anyone wishes to contribute, please
 
 
 ## Disclaimer
-This library was made solely to help learn C++. The reliability of this library is therefore not guaranteed. Please use with caution.
+This library was a one-man project. The reliability of this library is therefore not guaranteed. Please use with caution.
 
 ---
 

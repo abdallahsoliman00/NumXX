@@ -1,8 +1,12 @@
 .idea/
 .vscode/
+.vs/
 cmake-build-debug/
 cmake-build-release/
+build/
+.cache/
 
 testfile.txt
 test.*
 *.exe
+compile_commands.json
