@@ -32,8 +32,11 @@ public:
     [[nodiscard]] const Shape& shape() const { return this->_shape; }
 
 
-    // Returns a pointer `dtype*` to the data
+    // Returns a pointer `dtype*` to the data (should be used when modifying the underlying data)
     [[nodiscard]] dtype* get_data() const { return this->_data_ptr.get(); }
+
+    // Returns a pointer `dtype*` to the data (should be used when reading the address without modifying its underlying data)
+    [[nodiscard]] const dtype* get_start_address() const { return this->_data_ptr.get(); }
 
 
     // Returns the data as an std::vector

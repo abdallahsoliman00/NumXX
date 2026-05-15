@@ -5,6 +5,7 @@ cmake-build-debug/
 cmake-build-release/
 build/
 .cache/
+__cmake_systeminformation/
 
 testfile.txt
 test.*
